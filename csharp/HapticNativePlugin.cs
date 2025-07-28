@@ -34,226 +34,350 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
+
+
 using System.Runtime.InteropServices;
 using System;
 using System.Text;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+
 static public class HapticNativePlugin
 {
     static readonly Version RequiredLibraryVersion = new System.Version(2, 1, 0);
     public const int SUCCESS = 0;
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	void get_version_info(ref System.Int32 major,
-			      ref System.Int32 minor,
-			      ref System.Int32 patch);
+    void get_version_info(ref System.Int32 major,
+                  ref System.Int32 minor,
+                  ref System.Int32 patch);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	int get_error_msg(int err, int buffer_lenght, [In, Out] byte[] buffer);
+    int get_error_msg(int err, int buffer_lenght, [In, Out] byte[] buffer);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	int last_error_msg(int buffer_lenght, [In, Out] byte[] buffer);
+    int last_error_msg(int buffer_lenght, [In, Out] byte[] buffer);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int init_logging(
-					  int device_coordinates,
-					  int position,
-					  int velocity, int force,
-					  int interaction_forces, int object_number,
-					  int[] objects);
-    [DllImport("HPGE")]
+                      int device_coordinates,
+                      int position,
+                      int velocity, int force,
+                      int interaction_forces, int object_number,
+                      int[] objects);
+    [DllImport("libHPGE")]
     public static extern int start_logging(int sampling_rate);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int is_logging();
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int stop_logging_and_save(byte[] filename);
     // TODO: not implemtented yet!
-    //[DllImport("HPGE")]
+    //[DllImport("libHPGE")]
     //public static extern int stop_logging_and_get(SavedData data);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern void tick();
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int count_devices();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int get_device_name(int deviceId, int buffer_size,
-					     [In, Out] byte[] deviceName);
+                         [In, Out] byte[] deviceName);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int initialize(int deviceId, double ws, double tool);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	int deinitialize();
+    int deinitialize();
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	int start();
-    [DllImport("HPGE")]
+    int start();
+    [DllImport("libHPGE")]
+
+
+
     public static extern
-	int stop();
+    int stop();
 
     // WARNING: interface might change
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern double get_loop_frequency();
     // WARNING: Might get removed or merged with get_loop_frequency
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern double get_loops();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern long get_log_frame();
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern void log_annotate(byte[] note);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int is_initialized();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int is_running();
 
     public delegate void CallbackDelegate(IntPtr position, IntPtr velocity, IntPtr force);
 
     // TODO: not implemented (the C# code) yet
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public extern static void set_hook(int proxy, IntPtr hook);
-    [DllImport("HPGE")] // This in theory is working
+    [DllImport("libHPGE")] // This in theory is working
     public extern static int remove_hook();
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int enable_dynamic_objects();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int disable_dynamic_objects();
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern void enable_wait_for_small_forces();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern void disable_wait_for_small_forces();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern void enable_rise_forces();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern void disable_rise_forces();
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	void set_world_rotation_eulerXYZ(double x,
-					 double y,
-					 double z);
-    [DllImport("HPGE")]
+    void set_world_rotation_eulerXYZ(double x,
+                     double y,
+                     double z);
+    [DllImport("libHPGE")]
     public static extern
-	void set_world_rotation_quaternion(double w,
-					   double x,
-					   double y,
-					   double z);
-    [DllImport("HPGE")]
+    void set_world_rotation_quaternion(double w,
+                       double x,
+                       double y,
+                       double z);
+    [DllImport("libHPGE")]
     public static extern
-	void get_world_rotation(double[] array);
+    void get_world_rotation(double[] array);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	int set_world_mirror(int x, int y, int z);
-    [DllImport("HPGE")]
+    int set_world_mirror(int x, int y, int z);
+    [DllImport("libHPGE")]
     public static extern
-	void get_world_mirror(double[] array);
-    [DllImport("HPGE")]
+    void get_world_mirror(double[] array);
+    [DllImport("libHPGE")]
     public static extern
-	void get_world_order(double[] array);
+    void get_world_order(double[] array);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	void set_world_translation(double x, double y, double z);
-    [DllImport("HPGE")]
+    void set_world_translation(double x, double y, double z);
+    [DllImport("libHPGE")]
     public static extern
-	void get_world_translation(double[] array);
+    void get_world_translation(double[] array);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
-	int set_world_scale(double x, double y, double z);
-    [DllImport("HPGE")]
+    int set_world_scale(double x, double y, double z);
+    [DllImport("libHPGE")]
     public static extern
-	void get_world_scale(double[] array);
+    void get_world_scale(double[] array);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     static extern
-	int get_tool_proxy_position(double[] array);
-    [DllImport("HPGE")]
-    static extern int get_tool_position(double[] array);
-    [DllImport("HPGE")]
-    static extern int set_tool_position(double[] array);
-    [DllImport("HPGE")]
-    static extern int get_tool_velocity(double[] array);
-    [DllImport("HPGE")]
-    static extern int get_tool_rotation(double[] array); // quaternion
+    public int get_tool_proxy_position(double[] array);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
+    public static extern int disable_tool_forces();
+
+    [DllImport("libHPGE")]
+    public static extern int enable_tool_forces();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_gripper_forces();
+
+    [DllImport("libHPGE")]
+    public static extern int enable_gripper_forces();
+
+    //Functions implemented by yours truly {
+
+
+
+    [DllImport("libHPGE")]
+    public static extern int set_tool_force(Vector3 force);
+
+    //One array is the xyz of the thumb point, the other is the xyz of the index point
+    [DllImport("libHPGE")]
+    public static extern int get_gripper_position(double[] array1, double[] array2);
+
+    //Proxy points track movement of the tool but are not used to calculate or cause haptic feedback 
+    [DllImport("libHPGE")]
+    public static extern int get_gripper_proxy_position(double[] array1, double[] array2);
+
+    [DllImport("libHPGE")]
+    public static extern int get_gripper_angle_deg(double[] array1);
+
+    //the angle in these functions refers only to the angle output by the haptic device.
+    //The actual movement of the tool is not affected.
+
+    [DllImport("libHPGE")]
+    public static extern int set_gripper_angle_deg(double angle);
+
+    [DllImport("libHPGE")]
+    public static extern int set_min_gripper_angle_deg(double angle);
+
+    [DllImport("libHPGE")]
+    public static extern int enable_min_gripper_angle();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_min_gripper_angle();
+
+    [DllImport("libHPGE")]
+    public static extern int get_gripper_force(double[] force);
+
+    [DllImport("libHPGE")]
+    public static extern int set_max_force(double angle);
+
+    [DllImport("libHPGE")]
+    public static extern int enable_max_force();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_max_force();
+
+    [DllImport("libHPGE")]
+    public static extern int set_min_gripper_force(double angle);
+
+    [DllImport("libHPGE")]
+    public static extern int enable_min_gripper_force();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_min_gripper_force();
+
+    //Sets the force output by the gripper to be a static number
+    [DllImport("libHPGE")]
+    public static extern int set_static_force(double angle);
+
+    [DllImport("libHPGE")]
+    public static extern int enable_static_force();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_static_force();
+    [DllImport("libHPGE")]
+    public static extern int set_max_gripper_force(double angle);
+
+    [DllImport("libHPGE")]
+    public static extern int enable_max_gripper_force();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_max_gripper_force();
+
+
+    //Grasping mode sets the haptic points (which calculate Haptic Feedback) to be fixed around a center point
+    //While continuing to track actual tool movements using the proxy points
+    //Used to calculate haptic feedback based on a static copy of a shape while proxies interact with mobile original of that shape
+
+    [DllImport("libHPGE")]
+    public static extern void disable_grasping_mode();
+
+    [DllImport("libHPGE")]
+    public static extern void enable_grasping_mode(bool isFixed, double xOffset, double yOffset, double zOffset);
+    //} End Bracket
+
+    [DllImport("libHPGE")]
+    static extern int get_tool_position(double[] array);
+    [DllImport("libHPGE")]
+    static extern int set_tool_position(double[] array);
+    [DllImport("libHPGE")]
+    static extern int get_tool_velocity(double[] array);
+    [DllImport("libHPGE")]
+    static extern int get_tool_rotation(double[] array); // quaternion
+    
+    [DllImport("libHPGE")]
+    public static extern int get_tool_force(double[] array);
+
+    //Note: Does not work
+    [DllImport("libHPGE")]
+    public static extern int set_static_tool_force(double x, double y, double z);
+
+    [DllImport("libHPGE")]
+    public static extern int enable_static_tool_force();
+
+    [DllImport("libHPGE")]
+    public static extern int disable_static_tool_force();
+
+    [DllImport("libHPGE")]
     public static extern int is_tool_button_pressed(int buttonId);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
 	int create_mesh_object(double[] objectPos,
 			       double[] objectScale, double[] objectRotation,
 			       double[,] vertPos, double[,] normals,
 			       int vertNum, int[,] tris, int triNum, int uvNum,
 			       double[,] uvs);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
 	int create_sphere_object(double radius, double[] objectRotation, double[] objectPos);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern
 	int create_box_object(double[] objectrotation,
 			      double[] objectRotation,
 			      double[] objectPos);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int add_object_to_world(int objectId);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int disable_object(int objectId);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int enable_object(int objectId);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int object_exists(int objectId);
 
     // Remember that all strings (byte[] must be nul-terminated)
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     static extern int set_object_tag(int objectId, byte[] tag);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     static extern int set_object_texture(int objectId, uint size_x, uint size_y,
 					 float[] pixels, int spherical);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     static extern int set_object_material(int objectId,
 					  double stiffness, int surface, double staticfriction, double dynamicfriction,
 					  double magnetic_max_force, double magnetic_max_distance, double viscosity,
 					  double level, double sticksplip_stiffness, double sticksplip_maxforce,
 					  double vibration_freq, double vibration_amplitude);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int enable_position_interpolation(int objectId);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int disable_position_interpolation(int objectId);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int enable_rotation_interpolation(int objectId);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int disable_rotation_interpolation(int objectId);
 
     // WARNING: overshot might get removed // TODO: decide what to do
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int set_interpolation_period(int objectId, int cycles,
 						      double overshot);
 
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int set_object_position(int objectId, double[] vertPos);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int set_object_rotation(int objectId, double[] objectRotation);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int set_object_rotation_euler(int objectId, double[] objectRotation);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int get_object_rotation(int objectId, double[] objectRotation);
-    [DllImport("HPGE")]
+    [DllImport("libHPGE")]
     public static extern int set_object_scale(int objectId, double[] scale);
 
+    [DllImport("libHPGE")]
+    public static extern double computeInteractionForces();
+
+    [DllImport("libHPGE")]
+    public static extern double set_device_local_force(double x, double y, double z);
+    [DllImport("libHPGE")]
+    public static extern double set_device_global_force(double x, double y, double z);
 
     // -------- HERE the C interface ENDS! ---------
 
@@ -444,6 +568,42 @@ static public class HapticNativePlugin
 
     // FIXME: set_world_translation() has no wrappers. Do we need one?
     // FIXME: set_world_scale() has no wrappers. Do we need one?
+
+    public static double[] GetGripperThumbProxyPosition()
+    {
+        double[] positionThumb = new double[3];
+        double[] positionIndex = new double[3];
+        int res = get_gripper_proxy_position(positionThumb, positionIndex);
+        UnityHaptics.LogMessage(res, true);
+        return positionThumb;
+    }
+
+    public static double[] GetGripperIndexProxyPosition()
+    {
+        double[] positionThumb = new double[3];
+        double[] positionIndex = new double[3];
+        int res = get_gripper_proxy_position(positionThumb, positionIndex);
+        UnityHaptics.LogMessage(res, true);
+        return positionIndex;
+    }
+
+    public static double[] GetGripperThumbPosition()
+    {
+        double[] positionThumb = new double[3];
+        double[] positionIndex = new double[3];
+        int res = get_gripper_position(positionThumb, positionIndex);
+        UnityHaptics.LogMessage(res, true);
+        return positionThumb;
+    }
+
+    public static double[] GetGripperIndexPosition()
+    {
+        double[] positionThumb = new double[3];
+        double[] positionIndex = new double[3];
+        int res = get_gripper_position(positionThumb, positionIndex);
+        UnityHaptics.LogMessage(res, true);
+        return positionIndex;
+    }
 
     public static double[] GetToolProxyPosition()
     {
