@@ -3,9 +3,12 @@
 #+date: 2018-07-03 Tue
 #+setupfile: ./theme/theme-readtheorg-local.setup
 
-* Support
+* Please Note
 
-If you have an account here on github.com, please ask for support by opening an issue and explaining your problem. That way we'll help others too.
+This is a fork of the HPGE-wrappers repository. This fork modifies the original code to support the sigma7 haptic device, with some additional functionality implemented as well. There is no guarantee that this code will work for other haptic devices, or at all.
+
+The rest of this readme is left unaltered from the original.
+
 * Licensing
 
 The source code contained in this repository, unless otherwise stated, is released under the terms of the BSD-3 Clause license, as defined in the file [[file:LICENSE.txt]] and as available [[https://opensource.org/licenses/BSD-3-Clause][here]] (on date <2019-02-15 Fri>). The repository has been originally made available to the public on https://github.com/HapticPlugin/HPGE-wrappers
