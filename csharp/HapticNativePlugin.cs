@@ -204,7 +204,7 @@ static public class HapticNativePlugin
     [DllImport("libHPGE")]
     public static extern int set_tool_force(Vector3 force);
 
-    //One array is the xyz of the thumb point, the other is the xyz of the index point
+    //The first array is the xyz of the thumb point, the second is the xyz of the index point
     [DllImport("libHPGE")]
     public static extern int get_gripper_position(double[] array1, double[] array2);
 
@@ -215,7 +215,7 @@ static public class HapticNativePlugin
     [DllImport("libHPGE")]
     public static extern int get_gripper_angle_deg(double[] array1);
 
-    //the angle in these functions refers only to the angle output by the haptic device.
+    //the angle in these functions refers only to the angle read and output by the haptic device.
     //The actual movement of the tool is not affected.
 
     [DllImport("libHPGE")]
